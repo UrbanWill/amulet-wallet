@@ -22,9 +22,8 @@ export default function NewPolkadotAccount() {
   };
 
   const handleNext = async () => {
-    // TODO: Hash and salt the password before storing it. This is a PoC.
     await AsyncStorage.setItem("polkadotAccountName", value);
-    router.navigate("/newAccount");
+    router.navigate("/newRecoveryPhrase");
   };
 
   return (

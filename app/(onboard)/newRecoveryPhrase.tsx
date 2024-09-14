@@ -12,10 +12,12 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
-import { Input } from "~/components/ui/input";
+// import { mnemonicGenerate } from "@polkadot/util-crypto";
 
-export default function SetPassword() {
+export default function NewRecoveryPhrase() {
   const [value, setValue] = useState("");
+
+  // const mnemonic = mnemonicGenerate(12);
 
   const onChangeText = (text: string) => {
     setValue(text);
@@ -32,26 +34,18 @@ export default function SetPassword() {
       <Card className="w-full max-w-sm py-6 px-2 rounded-2xl">
         <CardHeader className="items-center">
           <CardTitle className="pb-2 text-center">
-            First, let's set a password
+            New recovery phrase
           </CardTitle>
           <View className="flex-row">
             <CardDescription className="text-base font-semibold">
-              Your password is used to unlock your wallet and is stored securely
-              on your device.
+              Your recovery phrase gives you access to your wallet and funds.
+              Write it down and store it in a secure location.
             </CardDescription>
           </View>
         </CardHeader>
         <CardContent>
           <View className="flex-row justify-around gap-3">
-            <Input
-              className="w-full"
-              placeholder="Enter password..."
-              value={value}
-              onChangeText={onChangeText}
-              aria-labelledby="inputLabel"
-              aria-errormessage="inputError"
-              secureTextEntry={true}
-            />
+            {/* {mnemonic} */}
           </View>
         </CardContent>
         <CardFooter className="flex-col gap-3 pb-0">

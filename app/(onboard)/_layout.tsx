@@ -12,6 +12,10 @@ export default function OnboardLayout() {
         name="newPolkadotAccount"
         options={{ title: "Create new Polkadot account" }}
       />
+      <Stack.Screen
+        name="newRecoveryPhrase"
+        options={{ title: "New recovery phrase" }}
+      />
     </Stack>
   );
 }
