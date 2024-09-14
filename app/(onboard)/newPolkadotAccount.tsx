@@ -56,7 +56,7 @@ export default function NewPolkadotAccount() {
             onPress={handleNext}
             disabled={!value}
           >
-            <Text>Create</Text>
+            <Text>Next</Text>
           </Button>
         </CardFooter>
       </Card>

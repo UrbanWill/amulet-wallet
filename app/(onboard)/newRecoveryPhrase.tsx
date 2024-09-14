@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { router } from "expo-router";
 import { View } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -13,20 +11,14 @@ import {
 } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
 import { mnemonicGenerate } from "@polkadot/util-crypto";
+import handleCreatePolkadotAccount from "~/utils/handleCreatePolkadotAccount";
 
 export default function NewRecoveryPhrase() {
-  const [value, setValue] = useState("");
-
   const mnemonic = mnemonicGenerate(12);
 
-  const onChangeText = (text: string) => {
-    setValue(text);
-  };
-
-  const handleNext = async () => {
-    // TODO: Hash and salt the password before storing it. This is a PoC.
-    await AsyncStorage.setItem("password", value);
-    router.navigate("/newAccount");
+  const handleCreate = async () => {
+    console.log("called handleCreate");
+    await handleCreatePolkadotAccount({ mnemonic });
   };
 
   return (
@@ -52,10 +44,9 @@ export default function NewRecoveryPhrase() {
           <Button
             variant="outline"
             className="shadow shadow-foreground/5"
-            onPress={handleNext}
-            disabled={!value}
+            onPress={handleCreate}
           >
-            <Text>Next</Text>
+            <Text>Create</Text>
           </Button>
         </CardFooter>
       </Card>
