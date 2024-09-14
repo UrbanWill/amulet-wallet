@@ -11,6 +11,12 @@ importers:
       '@polkadot/keyring':
         specifier: ^13.0.2
         version: 13.0.2(@polkadot/util-crypto@13.0.2(@polkadot/util@13.0.2))(@polkadot/util@13.0.2)
+      '@polkadot/ui-settings':
+        specifier: 3.9.1
+        version: 3.9.1(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2)
+      '@polkadot/util':
+        specifier: ^13.0.2
+        version: 13.0.2
       '@polkadot/util-crypto':
         specifier: ^13.0.2
         version: 13.0.2(@polkadot/util@13.0.2)
@@ -58,7 +64,7 @@ importers:
         version: 3.0.7(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
       expo-router:
         specifier: ~3.5.20
-        version: 3.5.23(luuukwaisttvjk4ir7ty2vlmhq)
+        version: 3.5.23(expo-constants@16.0.2(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))))(expo-linking@6.3.1(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))))(expo-modules-autolinking@1.11.2)(expo-status-bar@1.12.1)(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native-reanimated@3.10.1(@babel/core@7.25.2)(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.5(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-screens@3.31.1(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(typescript@5.5.4)
       expo-splash-screen:
         specifier: ~0.27.5
         version: 0.27.5(expo-modules-autolinking@1.11.2)(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
@@ -71,6 +77,9 @@ importers:
       lucide-react-native:
         specifier: ^0.378.0
         version: 0.378.0(react-native-svg@15.2.0(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      mkdirp:
+        specifier: ^3.0.1
+        version: 3.0.1
       nativewind:
         specifier: ^4.0.33
         version: 4.1.6(react-native-reanimated@3.10.1(@babel/core@7.25.2)(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.5(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-svg@15.2.0(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(tailwindcss@3.3.5)
@@ -98,6 +107,12 @@ importers:
       react-native-web:
         specifier: ~0.19.6
         version: 0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.1
+      store:
+        specifier: ^2.0.12
+        version: 2.0.12
       tailwind-merge:
         specifier: ^2.2.1
         version: 2.5.2
@@ -107,6 +122,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.3.5)
+      tslib:
+        specifier: ^2.6.2
+        version: 2.7.0
       zustand:
         specifier: ^4.4.7
         version: 4.5.5(@types/react@18.2.79)(react@18.2.0)
@@ -114,9 +132,15 @@ importers:
       '@babel/core':
         specifier: ^7.20.0
         version: 7.25.2
+      '@types/mkdirp':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/react':
         specifier: ~18.2.79
         version: 18.2.79
+      '@types/store':
+        specifier: ^2.0.5
+        version: 2.0.5
       typescript:
         specifier: ^5.3.3
         version: 5.5.4
@@ -1092,6 +1116,13 @@ packages:
     resolution: {integrity: sha512-ABAL+vug/gIwkdFEzeh87JoJd0YKrxSYg/HjUrZ+Zis2ucxQEKpvtCpJ34ku+YrjacBfVqIAkkwd3ZdIPGq9aQ==}
     engines: {node: '>=18'}
 
+  '@polkadot/ui-settings@3.9.1':
+    resolution: {integrity: sha512-G6WYluS3oE9wiK4KLK1Hi+lr0ZII65x7EcmRoqaR5BBKAr2cBnLAOfBiK5gUchntY7cw1ukXRmcCJmNmCFvwzg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@polkadot/networks': '*'
+      '@polkadot/util': '*'
+
   '@polkadot/util-crypto@13.0.2':
     resolution: {integrity: sha512-woUsJJ6zd/caL7U+D30a5oM/+WK9iNI00Y8aNUHSj6Zq/KPzK9uqDBaLGWwlgrejoMQkxxiU2X0f2LzP15AtQg==}
     engines: {node: '>=18'}
@@ -1727,6 +1758,10 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
+  '@types/mkdirp@2.0.0':
+    resolution: {integrity: sha512-c/iUqMymAlxLAyIK3u5SzrwkrkyOdv1XDc91T+b5FsY7Jr6ERhUD19jJHOhPW4GD6tmN6mFEorfSdks525pwdQ==}
+    deprecated: This is a stub types definition. mkdirp provides its own type definitions, so you do not need this installed.
+
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
@@ -1744,6 +1779,9 @@ packages:
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
+
+  '@types/store@2.0.5':
+    resolution: {integrity: sha512-5NmTKe3GWdOaykzq7no+Ahf6mafJu0oLc9JNhJ3E26+0oFvd6GnksnZQpMXcH526mfG4xDYjFiKzyDL51PzeWQ==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -2518,6 +2556,9 @@ packages:
   event-target-shim@5.0.1:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
     engines: {node: '>=6'}
+
+  eventemitter3@5.0.1:
+    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
 
   exec-async@2.2.0:
     resolution: {integrity: sha512-87OpwcEiMia/DeiKFzaQNBNFeN3XkkpYIh9FyOqq5mS2oKv3CBE67PXoEKcr6nodWdXNogTiQ0jE2NGuoffXPw==}
@@ -3594,6 +3635,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  mkdirp@3.0.1:
+    resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   mrmime@1.0.1:
     resolution: {integrity: sha512-hzzEagAgDyoU1Q6yg5uI+AorQgdvMCur3FcKf7NhMKWsaYg+RnbTyHRa/9IlLF9rf455MOCtcqqrQQ83pPP7Uw==}
     engines: {node: '>=10'}
@@ -4209,6 +4255,9 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
+  rxjs@7.8.1:
+    resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
+
   safe-array-concat@1.1.2:
     resolution: {integrity: sha512-vj6RsCsWBCf19jIeHEfkRMw8DPiBb+DMXklQ/1SGDHOMlHdPUkZXFQ2YdplS23zESTijAcurb1aSgJA3AgMu1Q==}
     engines: {node: '>=0.4'}
@@ -4394,6 +4443,9 @@ packages:
   statuses@2.0.1:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
     engines: {node: '>= 0.8'}
+
+  store@2.0.12:
+    resolution: {integrity: sha512-eO9xlzDpXLiMr9W1nQ3Nfp9EzZieIQc10zPPMP5jsVV7bLOziSFFBP0XoDXACEIFtdI+rIz0NwWVA/QVJ8zJtw==}
 
   stream-buffers@2.2.0:
     resolution: {integrity: sha512-uyQK/mx5QjHun80FLJTfaWE7JtwfRMKBLkMne6udYOmvH0CawotVa7TfgYHzAnpphn4+TweIx1QKMnRIbipmUg==}
@@ -6406,6 +6458,14 @@ snapshots:
       '@substrate/ss58-registry': 1.50.0
       tslib: 2.7.0
 
+  '@polkadot/ui-settings@3.9.1(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2)':
+    dependencies:
+      '@polkadot/networks': 13.0.2
+      '@polkadot/util': 13.0.2
+      eventemitter3: 5.0.1
+      store: 2.0.12
+      tslib: 2.7.0
+
   '@polkadot/util-crypto@13.0.2(@polkadot/util@13.0.2)':
     dependencies:
       '@noble/curves': 1.6.0
@@ -7283,6 +7343,10 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
+  '@types/mkdirp@2.0.0':
+    dependencies:
+      mkdirp: 3.0.1
+
   '@types/node-forge@1.3.11':
     dependencies:
       '@types/node': 22.5.4
@@ -7303,6 +7367,8 @@ snapshots:
       csstype: 3.1.3
 
   '@types/stack-utils@2.0.3': {}
+
+  '@types/store@2.0.5': {}
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -8115,6 +8181,8 @@ snapshots:
 
   event-target-shim@5.0.1: {}
 
+  eventemitter3@5.0.1: {}
+
   exec-async@2.2.0: {}
 
   execa@1.0.0:
@@ -8199,8 +8267,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  expo-router@3.5.23(luuukwaisttvjk4ir7ty2vlmhq):
-    dependencies:
+  ? expo-router@3.5.23(expo-constants@16.0.2(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))))(expo-linking@6.3.1(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))))(expo-modules-autolinking@1.11.2)(expo-status-bar@1.12.1)(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native-reanimated@3.10.1(@babel/core@7.25.2)(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.10.5(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native-screens@3.31.1(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(typescript@5.5.4)
+  : dependencies:
       '@expo/metro-runtime': 3.2.3(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))
       '@expo/server': 0.4.4(typescript@5.5.4)
       '@radix-ui/react-slot': 1.0.1(react@18.2.0)
@@ -9355,6 +9423,8 @@ snapshots:
 
   mkdirp@1.0.4: {}
 
+  mkdirp@3.0.1: {}
+
   mrmime@1.0.1: {}
 
   ms@2.0.0: {}
@@ -10007,6 +10077,10 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
+  rxjs@7.8.1:
+    dependencies:
+      tslib: 2.7.0
+
   safe-array-concat@1.1.2:
     dependencies:
       call-bind: 1.0.7
@@ -10196,6 +10270,8 @@ snapshots:
   statuses@1.5.0: {}
 
   statuses@2.0.1: {}
+
+  store@2.0.12: {}
 
   stream-buffers@2.2.0: {}
 

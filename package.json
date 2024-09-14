@@ -46,12 +46,20 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "3.3.5",
     "tailwindcss-animate": "^1.0.7",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "@polkadot/ui-settings": "3.9.1",
+    "@polkadot/util": "^13.0.2",
+    "mkdirp": "^3.0.1",
+    "rxjs": "^7.8.1",
+    "store": "^2.0.12",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.79",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "@types/mkdirp": "^2.0.0",
+    "@types/store": "^2.0.5"
   },
   "pnpm": {
     "peerDependencyRules": {
