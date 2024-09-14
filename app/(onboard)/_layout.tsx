@@ -8,6 +8,10 @@ export default function OnboardLayout() {
         name="newAccount"
         options={{ title: "Add your first account" }}
       />
+      <Stack.Screen
+        name="newPolkadotAccount"
+        options={{ title: "Create new Polkadot account" }}
+      />
     </Stack>
   );
 }
