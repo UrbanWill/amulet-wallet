@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { router } from "expo-router";
 import { View } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -19,6 +19,12 @@ export default function SetPassword() {
 
   const onChangeText = (text: string) => {
     setValue(text);
+  };
+
+  const handleNext = async () => {
+    // TODO: Hash and salt the password before storing it. This is a PoC.
+    await AsyncStorage.setItem("password", value);
+    router.navigate("/newAccount");
   };
 
   return (
@@ -51,7 +57,8 @@ export default function SetPassword() {
           <Button
             variant="outline"
             className="shadow shadow-foreground/5"
-            onPress={() => router.navigate("/newAccount")}
+            onPress={handleNext}
+            disabled={!value}
           >
             <Text>Next</Text>
           </Button>
