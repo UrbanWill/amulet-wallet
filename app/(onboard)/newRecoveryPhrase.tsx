@@ -12,12 +12,12 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
-// import { mnemonicGenerate } from "@polkadot/util-crypto";
+import { mnemonicGenerate } from "@polkadot/util-crypto";
 
 export default function NewRecoveryPhrase() {
   const [value, setValue] = useState("");
 
-  // const mnemonic = mnemonicGenerate(12);
+  const mnemonic = mnemonicGenerate(12);
 
   const onChangeText = (text: string) => {
     setValue(text);
@@ -45,7 +45,7 @@ export default function NewRecoveryPhrase() {
         </CardHeader>
         <CardContent>
           <View className="flex-row justify-around gap-3">
-            {/* {mnemonic} */}
+            <Text>{mnemonic}</Text>
           </View>
         </CardContent>
         <CardFooter className="flex-col gap-3 pb-0">
