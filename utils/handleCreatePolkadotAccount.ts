@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AccountsStore from "~/customPackages/ui-keyring/src/stores/AccountsStore";
 
 // import keyring from "keyring-ui-rn";
 import keyring from "../customPackages/ui-keyring/src/index";
@@ -20,22 +21,37 @@ export default async function handleCreatePolkadotAccount({
     throw new Error("Password or name not found");
   }
   const derivationPath = "//0";
-  // console.log({ password, mnemonic, derivationPath });
   const suri = formatSuri(mnemonic, derivationPath);
 
   console.log({ suri });
 
-  const { pair } = keyring.addUri(
-    suri,
-    password,
-    {
-      name,
-      origin: "AMULET",
-      // derivedMnemonicId,
-      derivationPath,
-    },
-    type
-  );
+  try {
+    keyring.loadAll({
+      store: new AccountsStore(),
+      type: "sr25519",
+      filter: (json) => {
+        return typeof json?.address === "string";
+      },
+    });
+  } catch (error) {
+    console.error("Error loading accounts:", error);
+  }
 
-  console.log({ pair });
+  try {
+    const { pair } = keyring.addUri(
+      suri,
+      password,
+      {
+        name,
+        origin: "AMULET",
+        // derivedMnemonicId,
+        derivationPath,
+      },
+      type
+    );
+
+    console.log({ pair });
+  } catch (error) {
+    console.error("Error adding account:", error);
+  }
 }
