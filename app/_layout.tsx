@@ -12,6 +12,9 @@ import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 
+import keyring from "~/customPackages/ui-keyring/src";
+import AccountsStore from "~/customPackages/ui-keyring/src/stores/AccountsStore";
+
 const LIGHT_THEME: Theme = {
   dark: false,
   colors: NAV_THEME.light,
@@ -34,6 +37,13 @@ export default function RootLayout() {
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   React.useEffect(() => {
+    keyring.loadAll({
+      store: new AccountsStore(),
+      type: "sr25519",
+      filter: (json) => {
+        return typeof json?.address === "string";
+      },
+    });
     (async () => {
       const theme = await AsyncStorage.getItem("theme");
       if (Platform.OS === "web") {
@@ -70,7 +80,7 @@ export default function RootLayout() {
         <Stack.Screen
           name="(onboard)"
           options={{
-            headerShown: false,
+            headerShown: true,
             headerRight: () => <ThemeToggle />,
           }}
         />

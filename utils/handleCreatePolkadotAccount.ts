@@ -1,7 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AccountsStore from "~/customPackages/ui-keyring/src/stores/AccountsStore";
-
-// import keyring from "keyring-ui-rn";
 import keyring from "../customPackages/ui-keyring/src/index";
 
 const type = "sr25519";
@@ -23,20 +20,6 @@ export default async function handleCreatePolkadotAccount({
   const derivationPath = "//0";
   const suri = formatSuri(mnemonic, derivationPath);
 
-  console.log({ suri });
-
-  try {
-    keyring.loadAll({
-      store: new AccountsStore(),
-      type: "sr25519",
-      filter: (json) => {
-        return typeof json?.address === "string";
-      },
-    });
-  } catch (error) {
-    console.error("Error loading accounts:", error);
-  }
-
   try {
     const { pair } = keyring.addUri(
       suri,
@@ -44,7 +27,7 @@ export default async function handleCreatePolkadotAccount({
       {
         name,
         origin: "AMULET",
-        // derivedMnemonicId,
+
         derivationPath,
       },
       type
