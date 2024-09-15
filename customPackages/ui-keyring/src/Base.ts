@@ -14,7 +14,7 @@ import { accounts } from "./observable/accounts";
 import { addresses } from "./observable/addresses";
 import { contracts } from "./observable/contracts";
 import { env } from "./observable/env";
-import { BrowserStore } from "./stores/Browser"; // direct import (skip index with all)
+import { ReactNativeStore } from "./stores/ReactNativeStore";
 
 export class Base {
   #accounts: AddressSubject;
@@ -38,7 +38,7 @@ export class Base {
     this.#addresses = addresses;
     this.#contracts = contracts;
     this.#isEthereum = false;
-    this._store = new BrowserStore();
+    this._store = new ReactNativeStore();
   }
 
   public get accounts(): AddressSubject {
