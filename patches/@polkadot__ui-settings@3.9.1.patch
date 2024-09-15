@@ -1,0 +1,11 @@
+diff --git a/cjs/defaults/type.js b/cjs/defaults/type.js
+index 45e423f8aa4aead65fbd3735c503ee93b8ea8add..1db9dfe0caaf4c704a6aa6bfca43db227c31cbdf 100644
+--- a/cjs/defaults/type.js
++++ b/cjs/defaults/type.js
+@@ -1,4 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.isPolkadot = void 0;
+-exports.isPolkadot = typeof window !== 'undefined' && window.location.host.includes('polkadot');
++// exports.isPolkadot = typeof window !== 'undefined' && window.location.host.includes('polkadot');
++exports.isPolkadot = true;

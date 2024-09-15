@@ -67,6 +67,10 @@
         "expo-modules-*",
         "typescript"
       ]
+    },
+    "patchedDependencies": {
+      "store@2.0.12": "patches/store@2.0.12.patch",
+      "@polkadot/ui-settings@3.9.1": "patches/@polkadot__ui-settings@3.9.1.patch"
     }
   },
   "private": true

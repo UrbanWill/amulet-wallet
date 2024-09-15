@@ -4,6 +4,14 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@polkadot/ui-settings@3.9.1':
+    hash: a5gikgt2baiphuhmhtrqul4i3i
+    path: patches/@polkadot__ui-settings@3.9.1.patch
+  store@2.0.12:
+    hash: mngpgef7dxtdyxooa2xk36q7qe
+    path: patches/store@2.0.12.patch
+
 importers:
 
   .:
@@ -13,7 +21,7 @@ importers:
         version: 13.0.2(@polkadot/util-crypto@13.0.2(@polkadot/util@13.0.2))(@polkadot/util@13.0.2)
       '@polkadot/ui-settings':
         specifier: 3.9.1
-        version: 3.9.1(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2)
+        version: 3.9.1(patch_hash=a5gikgt2baiphuhmhtrqul4i3i)(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2)
       '@polkadot/util':
         specifier: ^13.0.2
         version: 13.0.2
@@ -7056,12 +7064,12 @@ snapshots:
       '@substrate/ss58-registry': 1.50.0
       tslib: 2.7.0
 
-  '@polkadot/ui-settings@3.9.1(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2)':
+  '@polkadot/ui-settings@3.9.1(patch_hash=a5gikgt2baiphuhmhtrqul4i3i)(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2)':
     dependencies:
       '@polkadot/networks': 13.0.2
       '@polkadot/util': 13.0.2
       eventemitter3: 5.0.1
-      store: 2.0.12
+      store: 2.0.12(patch_hash=mngpgef7dxtdyxooa2xk36q7qe)
       tslib: 2.7.0
 
   '@polkadot/util-crypto@13.0.2(@polkadot/util@13.0.2)':
@@ -11654,7 +11662,7 @@ snapshots:
 
   statuses@2.0.1: {}
 
-  store@2.0.12: {}
+  store@2.0.12(patch_hash=mngpgef7dxtdyxooa2xk36q7qe): {}
 
   stream-buffers@2.2.0: {}
 
