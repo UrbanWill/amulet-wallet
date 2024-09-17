@@ -6,8 +6,8 @@ import { Stack } from "expo-router";
 export default function OnboardLayout() {
   const checkAuth = async () => {
     const isAuth = await AsyncStorage.getItem("isAuthenticated");
-    console.log({ isAuth });
-    if (!isAuth) {
+    if (isAuth) {
+      console.log("Authenticated", { isAuth });
       router.navigate("/(authenticated)");
     }
   };

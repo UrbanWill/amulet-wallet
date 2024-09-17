@@ -19,6 +19,9 @@ importers:
       '@polkadot/keyring':
         specifier: ^13.0.2
         version: 13.0.2(@polkadot/util-crypto@13.0.2(@polkadot/util@13.0.2))(@polkadot/util@13.0.2)
+      '@polkadot/ui-keyring':
+        specifier: ^3.9.1
+        version: 3.9.1(@polkadot/keyring@13.0.2(@polkadot/util-crypto@13.0.2(@polkadot/util@13.0.2))(@polkadot/util@13.0.2))(@polkadot/ui-settings@3.9.1(patch_hash=a5gikgt2baiphuhmhtrqul4i3i)(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2))(@polkadot/util@13.0.2)
       '@polkadot/ui-settings':
         specifier: 3.9.1
         version: 3.9.1(patch_hash=a5gikgt2baiphuhmhtrqul4i3i)(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2)
@@ -1195,6 +1198,14 @@ packages:
   '@polkadot/networks@13.0.2':
     resolution: {integrity: sha512-ABAL+vug/gIwkdFEzeh87JoJd0YKrxSYg/HjUrZ+Zis2ucxQEKpvtCpJ34ku+YrjacBfVqIAkkwd3ZdIPGq9aQ==}
     engines: {node: '>=18'}
+
+  '@polkadot/ui-keyring@3.9.1':
+    resolution: {integrity: sha512-oNVXJooDsVCP1iLr4vTUGzbBzNO1tQmqmusuPMnNcq5vDh1k0IHwGQbqI3uVX0ygUyR1BAIk6zT8Z8XStW3A4g==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@polkadot/keyring': '*'
+      '@polkadot/ui-settings': '*'
+      '@polkadot/util': '*'
 
   '@polkadot/ui-settings@3.9.1':
     resolution: {integrity: sha512-G6WYluS3oE9wiK4KLK1Hi+lr0ZII65x7EcmRoqaR5BBKAr2cBnLAOfBiK5gUchntY7cw1ukXRmcCJmNmCFvwzg==}
@@ -7062,6 +7073,17 @@ snapshots:
     dependencies:
       '@polkadot/util': 13.0.2
       '@substrate/ss58-registry': 1.50.0
+      tslib: 2.7.0
+
+  '@polkadot/ui-keyring@3.9.1(@polkadot/keyring@13.0.2(@polkadot/util-crypto@13.0.2(@polkadot/util@13.0.2))(@polkadot/util@13.0.2))(@polkadot/ui-settings@3.9.1(patch_hash=a5gikgt2baiphuhmhtrqul4i3i)(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2))(@polkadot/util@13.0.2)':
+    dependencies:
+      '@polkadot/keyring': 13.0.2(@polkadot/util-crypto@13.0.2(@polkadot/util@13.0.2))(@polkadot/util@13.0.2)
+      '@polkadot/ui-settings': 3.9.1(patch_hash=a5gikgt2baiphuhmhtrqul4i3i)(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2)
+      '@polkadot/util': 13.0.2
+      '@polkadot/util-crypto': 13.0.2(@polkadot/util@13.0.2)
+      mkdirp: 3.0.1
+      rxjs: 7.8.1
+      store: 2.0.12(patch_hash=mngpgef7dxtdyxooa2xk36q7qe)
       tslib: 2.7.0
 
   '@polkadot/ui-settings@3.9.1(patch_hash=a5gikgt2baiphuhmhtrqul4i3i)(@polkadot/networks@13.0.2)(@polkadot/util@13.0.2)':

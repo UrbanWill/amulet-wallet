@@ -11,6 +11,7 @@ import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
+import { cryptoWaitReady } from "@polkadot/util-crypto";
 
 import keyring from "~/customPackages/ui-keyring/src";
 import AccountsStore from "~/customPackages/ui-keyring/src/stores/AccountsStore";
@@ -40,13 +41,15 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (!isKeyringLoaded) {
-      keyring.loadAll({
-        store: new AccountsStore(),
-        type: "sr25519",
-        filter: (json) => {
-          return typeof json?.address === "string";
-        },
-      });
+      cryptoWaitReady().then((): void =>
+        keyring.loadAll({
+          store: new AccountsStore(),
+          type: "sr25519",
+          filter: (json) => {
+            return typeof json?.address === "string";
+          },
+        })
+      );
       setIsKeyringLoaded(true);
     }
   }, [isKeyringLoaded]);

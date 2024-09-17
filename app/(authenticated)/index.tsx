@@ -6,9 +6,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { KeyringAddress } from "~/customPackages/ui-keyring/src/types";
 
+function formatPolkadotAddress(address: string): string {
+  const firstPart = address.slice(0, 5);
+  const lastPart = address.slice(-5);
+
+  return `${firstPart}...${lastPart}`;
+}
+
 export default function Home() {
   const [allAccounts, setAllAccounts] = useState<KeyringAddress[]>([]);
-  // const allAccounts = keyring.getAccounts();
   console.log({ allAccounts });
   const getAllAccounts = async () => {
     const accounts = await keyring.getAccounts();
@@ -17,7 +23,7 @@ export default function Home() {
 
   useEffect(() => {
     getAllAccounts();
-  }, []);
+  }, [allAccounts]);
 
   const handleSignOut = async () => {
     AsyncStorage.removeItem("isAuthenticated");
@@ -40,10 +46,10 @@ export default function Home() {
         {allAccounts.map((account) => (
           <View
             key={account.address}
-            className="bg-gray-300 flex flex-row gap-2"
+            className="bg-gray-300 flex flex-row gap-2 p-2 rounded-md"
           >
             <Text>{account.meta.name}</Text>
-            <Text>{account.address}</Text>
+            <Text>{formatPolkadotAddress(account.address)}</Text>
           </View>
         ))}
       </View>

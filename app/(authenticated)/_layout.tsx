@@ -7,8 +7,8 @@ import { TabBarIcon } from "~/components/TabBarIcon";
 export default function AuthenticatedLayout() {
   const checkAuth = async () => {
     const isAuth = await AsyncStorage.getItem("isAuthenticated");
-    console.log({ isAuth });
     if (!isAuth) {
+      console.log("Not authenticated", { isAuth });
       router.navigate("/(onboard)");
     }
   };
