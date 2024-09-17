@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View } from "react-native";
 import { Button } from "~/components/ui/button";
 import {
@@ -14,11 +16,16 @@ import { mnemonicGenerate } from "@polkadot/util-crypto";
 import handleCreatePolkadotAccount from "~/utils/handleCreatePolkadotAccount";
 
 export default function NewRecoveryPhrase() {
+  const [isLoading, setIsLoading] = useState(false);
   const mnemonic = mnemonicGenerate(12);
 
   const handleCreate = async () => {
-    console.log("called handleCreate");
-    await handleCreatePolkadotAccount({ mnemonic });
+    setIsLoading(true);
+    const pair = await handleCreatePolkadotAccount({ mnemonic });
+    setIsLoading(false);
+    console.log("Account created", { pair });
+    await AsyncStorage.setItem("isAuthenticated", "true");
+    router.navigate("/(authenticated)");
   };
 
   return (
@@ -45,6 +52,7 @@ export default function NewRecoveryPhrase() {
             variant="outline"
             className="shadow shadow-foreground/5"
             onPress={handleCreate}
+            disabled={isLoading}
           >
             <Text>Create</Text>
           </Button>

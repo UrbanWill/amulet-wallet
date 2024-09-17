@@ -1,5 +1,5 @@
 import "~/global.css";
-
+import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
@@ -11,6 +11,10 @@ import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
+import { cryptoWaitReady } from "@polkadot/util-crypto";
+
+import keyring from "~/customPackages/ui-keyring/src";
+import AccountsStore from "~/customPackages/ui-keyring/src/stores/AccountsStore";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -30,10 +34,27 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const [isKeyringLoaded, setIsKeyringLoaded] = useState<boolean>(false);
+  const [isColorSchemeLoaded, setIsColorSchemeLoaded] =
+    useState<boolean>(false);
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (!isKeyringLoaded) {
+      cryptoWaitReady().then((): void =>
+        keyring.loadAll({
+          store: new AccountsStore(),
+          type: "sr25519",
+          filter: (json) => {
+            return typeof json?.address === "string";
+          },
+        })
+      );
+      setIsKeyringLoaded(true);
+    }
+  }, [isKeyringLoaded]);
+
+  useEffect(() => {
     (async () => {
       const theme = await AsyncStorage.getItem("theme");
       if (Platform.OS === "web") {
@@ -72,6 +93,12 @@ export default function RootLayout() {
           options={{
             headerShown: false,
             headerRight: () => <ThemeToggle />,
+          }}
+        />
+        <Stack.Screen
+          name="(authenticated)"
+          options={{
+            headerShown: false,
           }}
         />
       </Stack>

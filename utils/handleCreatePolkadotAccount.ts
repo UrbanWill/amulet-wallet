@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import keyring from "@polkadot/ui-keyring";
-import { Keyring } from "@polkadot/keyring";
+import keyring from "../customPackages/ui-keyring/src/index";
 
 const type = "sr25519";
 export const formatSuri = (mnemonic: string, derivationPath: string) =>
@@ -16,37 +15,26 @@ export default async function handleCreatePolkadotAccount({
   const password = await AsyncStorage.getItem("password");
   const name = await AsyncStorage.getItem("polkadotAccountName");
   if (!password || !name) {
-    console.log({ name, password });
-    // throw new Error("Password or name not found");
-    console.log("Password or name not found");
-    return null;
+    throw new Error("Password or name not found");
   }
   const derivationPath = "//0";
-  // console.log({ password, mnemonic, derivationPath });
   const suri = formatSuri(mnemonic, derivationPath);
 
-  console.log({ suri });
+  try {
+    const { pair } = keyring.addUri(
+      suri,
+      password,
+      {
+        name,
+        origin: "AMULET",
 
-  const keyring = new Keyring({ type });
+        derivationPath,
+      },
+      type
+    );
 
-  const account = keyring.addFromUri(suri, {
-    name,
-    origin: "AMULET",
-    // derivedMnemonicId,
-    derivationPath,
-  });
-  console.log({ account });
-  // const { pair } = keyring.addUri(
-  //   suri,
-  //   password,
-  //   {
-  //     name,
-  //     origin: "AMULET",
-  //     // derivedMnemonicId,
-  //     derivationPath,
-  //   },
-  //   type
-  // );
-
-  // console.log({ pair });
+    return pair;
+  } catch (error) {
+    console.error("Error adding account:", error);
+  }
 }

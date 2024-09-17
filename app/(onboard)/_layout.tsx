@@ -1,6 +1,19 @@
+import { useEffect } from "react";
+import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack } from "expo-router";
 
 export default function OnboardLayout() {
+  const checkAuth = async () => {
+    const isAuth = await AsyncStorage.getItem("isAuthenticated");
+    if (isAuth) {
+      console.log("Authenticated", { isAuth });
+      router.navigate("/(authenticated)");
+    }
+  };
+  useEffect(() => {
+    checkAuth();
+  }, []);
   return (
     <Stack>
       <Stack.Screen name="index" options={{ title: "Create password" }} />
