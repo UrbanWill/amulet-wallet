@@ -56,7 +56,7 @@ export class KeyringOption implements KeyringOptionInstance {
 
   public init(keyring: KeyringStruct): void {
     if (hasCalledInitOptions) {
-      throw new Error("Unable to initialise options more than once");
+      throw new Error("Unable to initialize options more than once");
     }
 
     this.#allSub = obervableAll.subscribe((): void => {

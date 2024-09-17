@@ -33,7 +33,7 @@ export default async function handleCreatePolkadotAccount({
       type
     );
 
-    console.log({ pair });
+    return pair;
   } catch (error) {
     console.error("Error adding account:", error);
   }
