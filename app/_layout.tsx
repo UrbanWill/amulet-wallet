@@ -1,5 +1,5 @@
 import "~/global.css";
-
+import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
@@ -33,17 +33,25 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const [isKeyringLoaded, setIsKeyringLoaded] = useState<boolean>(false);
+  const [isColorSchemeLoaded, setIsColorSchemeLoaded] =
+    useState<boolean>(false);
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
-  React.useEffect(() => {
-    keyring.loadAll({
-      store: new AccountsStore(),
-      type: "sr25519",
-      filter: (json) => {
-        return typeof json?.address === "string";
-      },
-    });
+  useEffect(() => {
+    if (!isKeyringLoaded) {
+      keyring.loadAll({
+        store: new AccountsStore(),
+        type: "sr25519",
+        filter: (json) => {
+          return typeof json?.address === "string";
+        },
+      });
+      setIsKeyringLoaded(true);
+    }
+  }, [isKeyringLoaded]);
+
+  useEffect(() => {
     (async () => {
       const theme = await AsyncStorage.getItem("theme");
       if (Platform.OS === "web") {
@@ -80,8 +88,14 @@ export default function RootLayout() {
         <Stack.Screen
           name="(onboard)"
           options={{
-            headerShown: true,
+            headerShown: false,
             headerRight: () => <ThemeToggle />,
+          }}
+        />
+        <Stack.Screen
+          name="(authenticated)"
+          options={{
+            headerShown: false,
           }}
         />
       </Stack>
