@@ -23,7 +23,7 @@ export default function Home() {
 
   useEffect(() => {
     getAllAccounts();
-  }, [allAccounts]);
+  }, []);
 
   const handleSignOut = async () => {
     AsyncStorage.removeItem("isAuthenticated");
