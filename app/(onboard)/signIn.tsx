@@ -13,38 +13,45 @@ import {
 } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
 import { Input } from "~/components/ui/input";
+import { cn } from "~/lib/utils";
 
-export default function SetPassword() {
-  const [value, setValue] = useState("");
+export default function SignIn() {
+  const [value, setValue] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
 
   const onChangeText = (text: string) => {
+    if (error) setError(false);
     setValue(text);
   };
 
-  const handleNext = async () => {
-    // TODO: Hash and salt the password before storing it. This is a PoC.
-    await AsyncStorage.setItem("password", value);
-    router.navigate("/newAccount");
+  const handleSubmit = async () => {
+    const password = await AsyncStorage.getItem("password");
+    if (password === value) {
+      await AsyncStorage.setItem("isAuthenticated", "true");
+      router.navigate("/(authenticated)");
+    } else {
+      setError(true);
+    }
   };
 
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
       <Card className="w-full max-w-sm py-6 px-2 rounded-2xl">
         <CardHeader className="items-center">
-          <CardTitle className="pb-2 text-center">
-            First, let's set a password
-          </CardTitle>
+          <CardTitle className="pb-2 text-center">Sign in</CardTitle>
           <View className="flex-row">
             <CardDescription className="text-base font-semibold">
-              Your password is used to unlock your wallet and is stored securely
-              on your device.
+              Enter your password to access your account.
             </CardDescription>
           </View>
         </CardHeader>
         <CardContent>
           <View className="flex-row justify-around gap-3">
             <Input
-              className="w-full"
+              // className="border-2 border-rose-500"
+              className={cn("w-full", {
+                "border-red-500": error,
+              })}
               placeholder="Enter password..."
               value={value}
               onChangeText={onChangeText}
@@ -58,23 +65,13 @@ export default function SetPassword() {
           <Button
             variant="outline"
             className="shadow shadow-foreground/5"
-            onPress={handleNext}
+            onPress={handleSubmit}
             disabled={!value}
           >
-            <Text>Next</Text>
+            <Text>Sign in</Text>
           </Button>
         </CardFooter>
       </Card>
-      <View>
-        <Text>Already have an account?</Text>
-        <Button
-          variant="outline"
-          className="shadow shadow-foreground/5"
-          onPress={() => router.navigate("/signIn")}
-        >
-          <Text>Sign in</Text>
-        </Button>
-      </View>
     </View>
   );
 }

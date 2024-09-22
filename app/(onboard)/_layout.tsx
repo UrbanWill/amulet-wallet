@@ -29,6 +29,10 @@ export default function OnboardLayout() {
         name="newRecoveryPhrase"
         options={{ title: "New recovery phrase" }}
       />
+      <Stack.Screen
+        name="signIn"
+        options={{ title: "Sign in to your account" }}
+      />
     </Stack>
   );
 }
