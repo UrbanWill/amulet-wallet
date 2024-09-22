@@ -6,7 +6,7 @@ import { Button } from "~/components/ui/button";
 export default function Settings() {
   const handleSignOut = async () => {
     AsyncStorage.removeItem("isAuthenticated");
-    router.navigate("/(onboard)");
+    router.replace("/(onboard)");
   };
 
   return (
