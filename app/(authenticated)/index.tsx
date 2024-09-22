@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import keyring from "~/customPackages/ui-keyring/src";
 import { Button } from "~/components/ui/button";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
+
 import { KeyringAddress } from "~/customPackages/ui-keyring/src/types";
 
 function formatPolkadotAddress(address: string): string {
@@ -15,7 +14,6 @@ function formatPolkadotAddress(address: string): string {
 
 export default function Home() {
   const [allAccounts, setAllAccounts] = useState<KeyringAddress[]>([]);
-  console.log({ allAccounts });
   const getAllAccounts = async () => {
     const accounts = await keyring.getAccounts();
     setAllAccounts(accounts);
@@ -23,12 +21,7 @@ export default function Home() {
 
   useEffect(() => {
     getAllAccounts();
-  }, [allAccounts]);
-
-  const handleSignOut = async () => {
-    AsyncStorage.removeItem("isAuthenticated");
-    router.navigate("/(onboard)");
-  };
+  }, []);
 
   return (
     <View className="p-6">
@@ -36,9 +29,9 @@ export default function Home() {
         <Button
           variant="outline"
           className="shadow shadow-foreground/5"
-          onPress={handleSignOut}
+          onPress={() => getAllAccounts()}
         >
-          <Text>Sign out</Text>
+          <Text>Get accounts</Text>
         </Button>
         <Text>All accounts</Text>
       </View>

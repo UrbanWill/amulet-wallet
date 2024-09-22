@@ -35,6 +35,16 @@ export default function AuthenticatedLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? "cog" : "cog-outline"} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
