@@ -36,6 +36,19 @@ export default function AuthenticatedLayout() {
         }}
       />
       <Tabs.Screen
+        name="balances"
+        options={{
+          title: "Balances",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "folder" : "folder-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="settings"
         options={{
           title: "Settings",
