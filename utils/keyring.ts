@@ -1,100 +1,71 @@
-import * as Crypto from "expo-crypto";
-import * as CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js";
 
-// Derive a key using PBKDF2-like hashing
-const deriveKey = async (
-  password: string,
-  salt: Uint8Array
-): Promise<Uint8Array> => {
-  let keyMaterial: Uint8Array = new Uint8Array([
-    ...salt,
-    ...new TextEncoder().encode(password),
-  ]);
-
-  // Perform multiple iterations of SHA-256 hashing
-  for (let i = 0; i < 100000; i++) {
-    const hash: string = await Crypto.digestStringAsync(
-      Crypto.CryptoDigestAlgorithm.SHA256,
-      Array.from(keyMaterial)
-        .map((byte) => String.fromCharCode(byte))
-        .join(""),
-      { encoding: Crypto.CryptoEncoding.HEX }
-    );
-    keyMaterial = new TextEncoder().encode(hash);
-  }
-
-  return keyMaterial.slice(0, 32); // Return first 32 bytes (256 bits)
+// Reduce PBKDF2 iterations to improve performance
+const deriveKey = async (password: string, salt: string): Promise<string> => {
+  const derivedKey = CryptoJS.PBKDF2(password, CryptoJS.enc.Hex.parse(salt), {
+    keySize: 256 / 32,
+    iterations: 1000, // Reduced iterations for better performance
+  });
+  return derivedKey.toString(CryptoJS.enc.Hex);
 };
 
-// Encryption function
 export const encrypt = async (
   data: string,
   password: string
 ): Promise<string> => {
-  const salt: Uint8Array = Crypto.getRandomBytes(16); // 16-byte salt
-  const iv: Uint8Array = Crypto.getRandomBytes(12); // 12-byte IV for AES-GCM
-  const key: Uint8Array = await deriveKey(password, salt);
+  const salt = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex); // Generate salt
+  const iv = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex); // Generate IV
+  const key = await deriveKey(password, salt);
 
-  // Encrypt using CryptoJS
-  const encryptedData: string = CryptoJS.AES.encrypt(data, key.toString(), {
-    iv: CryptoJS.enc.Hex.parse(
-      Array.from(iv)
-        .map((byte) => byte.toString(16).padStart(2, "0"))
-        .join("")
-    ),
-  }).toString();
+  const encrypted = CryptoJS.AES.encrypt(data, CryptoJS.enc.Hex.parse(key), {
+    iv: CryptoJS.enc.Hex.parse(iv),
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
 
-  // Combine salt, IV, and encrypted data
-  const combined: Uint8Array = Uint8Array.from([
-    ...salt,
-    ...iv,
-    ...new TextEncoder().encode(encryptedData),
-  ]);
-  return btoa(String.fromCharCode(...combined));
+  const combined = `${salt}:${iv}:${encrypted.ciphertext.toString(
+    CryptoJS.enc.Hex
+  )}`;
+  return combined;
 };
 
-// Decryption function
 export const decrypt = async (
   encryptedData: string,
   password: string
 ): Promise<string> => {
-  const combined: Uint8Array = Uint8Array.from(atob(encryptedData), (c) =>
-    c.charCodeAt(0)
-  );
+  const [salt, iv, ciphertext] = encryptedData.split(":");
+  if (!salt || !iv || !ciphertext) {
+    throw new Error("Invalid encrypted data format");
+  }
 
-  // Extract salt, IV, and encrypted data
-  const salt: Uint8Array = combined.slice(0, 16);
-  const iv: Uint8Array = combined.slice(16, 28);
-  const encryptedSeed: Uint8Array = combined.slice(28);
+  const key = await deriveKey(password, salt);
 
-  const key: Uint8Array = await deriveKey(password, salt);
-
-  // Decrypt using CryptoJS
-  const decryptedData = CryptoJS.AES.decrypt(
-    Array.from(encryptedSeed)
-      .map((byte) => String.fromCharCode(byte))
-      .join(""),
-    key.toString(),
+  const decrypted = CryptoJS.AES.decrypt(
+    CryptoJS.lib.CipherParams.create({
+      ciphertext: CryptoJS.enc.Hex.parse(ciphertext),
+    }),
+    CryptoJS.enc.Hex.parse(key),
     {
-      iv: CryptoJS.enc.Hex.parse(
-        Array.from(iv)
-          .map((byte) => byte.toString(16).padStart(2, "0"))
-          .join("")
-      ),
+      iv: CryptoJS.enc.Hex.parse(iv),
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
     }
   );
 
-  return decryptedData.toString(CryptoJS.enc.Utf8);
+  return CryptoJS.enc.Utf8.stringify(decrypted);
 };
 
-// // Example usage
+// Example usage in a non-blocking way
 // (async () => {
 //   const password = "strongpassword";
 //   const data = "Secret Message";
 
-//   const encrypted = await encrypt(data, password);
-//   console.log("Encrypted:", encrypted);
+//   // Run in background thread if possible
+//   setTimeout(async () => {
+//     const encrypted = await encrypt(data, password);
+//     console.log("Encrypted:", encrypted);
 
-//   const decrypted = await decrypt(encrypted, password);
-//   console.log("Decrypted:", decrypted);
+//     const decrypted = await decrypt(encrypted, password);
+//     console.log("Decrypted:", decrypted);
+//   }, 0); // Offload to event loop
 // })();
