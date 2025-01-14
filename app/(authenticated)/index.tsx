@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import keyring from "~/customPackages/ui-keyring/src";
 import { Button } from "~/components/ui/button";
+import "react-native-get-random-values";
 
 import { KeyringAddress } from "~/customPackages/ui-keyring/src/types";
 
