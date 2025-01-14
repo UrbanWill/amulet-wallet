@@ -3,35 +3,46 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { Button } from "~/components/ui/button";
 import { encrypt, decrypt } from "~/utils/keyring";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Input } from "~/components/ui/input";
 
 export default function Settings() {
   const [textValue, setTextValue] = useState<string>("");
   const [encryptedText, setEncryptedText] = useState<string>("");
   const [decryptedText, setDecryptedText] = useState<string>("");
+  const [isEncryptLoading, setIsEncryptLoading] = useState<boolean>(false);
+  const [isDecryptLoading, setIsDecryptLoading] = useState<boolean>(false);
 
   const handleSignOut = async () => {
     AsyncStorage.removeItem("isAuthenticated");
     router.replace("/");
   };
 
-  const handleEncrypt = async () => {
+  const handleEncrypt = useCallback(async () => {
+    setIsEncryptLoading(true);
     try {
-      const encrypted = await encrypt(
-        new TextEncoder().encode(textValue),
-        "password"
-      );
+      const encrypted = await encrypt(textValue, "password");
+      console.log({ encrypted });
       setEncryptedText(encrypted);
     } catch (error) {
       console.log("Error encrypting", error);
+    } finally {
+      setIsEncryptLoading(false);
     }
-  };
+  }, [encrypt, textValue, setIsEncryptLoading]);
 
-  const handleDecrypt = async () => {
-    const decrypted = await decrypt(encryptedText, "password");
-    setDecryptedText(new TextDecoder().decode(decrypted));
-  };
+  const handleDecrypt = useCallback(async () => {
+    try {
+      setIsDecryptLoading(true);
+      const decrypted = await decrypt(encryptedText, "password");
+      console.log({ decrypted });
+      setDecryptedText(decrypted);
+    } catch (error) {
+      console.log("Error decrypting", error);
+    } finally {
+      setIsDecryptLoading(false);
+    }
+  }, [decrypt, encryptedText, setIsDecryptLoading]);
 
   return (
     <View className="p-6 flex flex-col gap-5">
@@ -55,7 +66,6 @@ export default function Settings() {
             onChangeText={(text) => setTextValue(text)}
             aria-labelledby="inputLabel"
             aria-errormessage="inputError"
-            secureTextEntry={true}
           />
         </View>
       </View>
@@ -64,22 +74,26 @@ export default function Settings() {
           variant="outline"
           className="shadow shadow-foreground/5"
           onPress={() => handleEncrypt()}
-          disabled={!textValue}
+          disabled={!textValue || isEncryptLoading}
         >
           <Text>Encrypt text</Text>
         </Button>
-        <View>{encryptedText}</View>
+        <Text>{`Encrypted text: ${
+          isEncryptLoading ? "Loading..." : encryptedText
+        }`}</Text>
       </View>
       <View className="space-y-5">
         <Button
           variant="outline"
           className="shadow shadow-foreground/5"
           onPress={() => handleDecrypt()}
-          disabled={!encryptedText}
+          disabled={!encryptedText || isDecryptLoading}
         >
           <Text>Decrypt text</Text>
         </Button>
-        <View>{decryptedText}</View>
+        <Text>{`Decrypted text: ${
+          isDecryptLoading ? "Loading..." : decryptedText
+        }`}</Text>
       </View>
     </View>
   );

@@ -1,91 +1,100 @@
-// Derive a key generated with PBKDF2 that will be used for AES-GCM encryption
+import * as Crypto from "expo-crypto";
+import * as CryptoJS from "crypto-js";
+
+// Derive a key using PBKDF2-like hashing
 const deriveKey = async (
   password: string,
   salt: Uint8Array
-): Promise<CryptoKey> => {
-  const keyMaterial = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(password),
-    "PBKDF2",
-    false,
-    ["deriveKey"]
-  );
+): Promise<Uint8Array> => {
+  let keyMaterial: Uint8Array = new Uint8Array([
+    ...salt,
+    ...new TextEncoder().encode(password),
+  ]);
 
-  return crypto.subtle.deriveKey(
-    {
-      name: "PBKDF2",
-      salt,
-      iterations: 100000,
-      hash: "SHA-256",
-    },
-    keyMaterial,
-    { name: "AES-GCM", length: 256 },
-    false,
-    ["encrypt", "decrypt"]
-  );
+  // Perform multiple iterations of SHA-256 hashing
+  for (let i = 0; i < 100000; i++) {
+    const hash: string = await Crypto.digestStringAsync(
+      Crypto.CryptoDigestAlgorithm.SHA256,
+      Array.from(keyMaterial)
+        .map((byte) => String.fromCharCode(byte))
+        .join(""),
+      { encoding: Crypto.CryptoEncoding.HEX }
+    );
+    keyMaterial = new TextEncoder().encode(hash);
+  }
+
+  return keyMaterial.slice(0, 32); // Return first 32 bytes (256 bits)
 };
 
+// Encryption function
 export const encrypt = async (
-  data: Uint8Array,
+  data: string,
   password: string
 ): Promise<string> => {
-  const salt = crypto.getRandomValues(new Uint8Array(16)); // 16 bytes of salt
-  const iv = crypto.getRandomValues(new Uint8Array(12)); // 12-byte IV for AES-GCM
-  const key = await deriveKey(password, salt);
+  const salt: Uint8Array = Crypto.getRandomBytes(16); // 16-byte salt
+  const iv: Uint8Array = Crypto.getRandomBytes(12); // 12-byte IV for AES-GCM
+  const key: Uint8Array = await deriveKey(password, salt);
 
-  // encrypt
-  const encryptedSeed = await crypto.subtle.encrypt(
-    {
-      name: "AES-GCM", // AES-GCM is recommended for symmetric encryption of large amounts of data
-      iv,
-    },
-    key,
-    data
-  );
+  // Encrypt using CryptoJS
+  const encryptedData: string = CryptoJS.AES.encrypt(data, key.toString(), {
+    iv: CryptoJS.enc.Hex.parse(
+      Array.from(iv)
+        .map((byte) => byte.toString(16).padStart(2, "0"))
+        .join("")
+    ),
+  }).toString();
 
-  // Combine salt, IV, and encrypted seed
-  const combined = new Uint8Array(
-    salt.length + iv.length + encryptedSeed.byteLength
-  );
-  combined.set(salt, 0);
-  combined.set(iv, salt.length);
-  combined.set(new Uint8Array(encryptedSeed), salt.length + iv.length);
-
-  // Base64 encode the combined data
+  // Combine salt, IV, and encrypted data
+  const combined: Uint8Array = Uint8Array.from([
+    ...salt,
+    ...iv,
+    ...new TextEncoder().encode(encryptedData),
+  ]);
   return btoa(String.fromCharCode(...combined));
 };
 
+// Decryption function
 export const decrypt = async (
   encryptedData: string,
   password: string
-): Promise<Uint8Array> => {
-  // Decode Base64 and parse the combined data
-  const combined = Uint8Array.from(atob(encryptedData), (c) => c.charCodeAt(0));
-
-  // Extract salt, IV, and encrypted seed
-  const salt = combined.slice(0, 16); // First 16 bytes
-  const iv = combined.slice(16, 28); // Next 12 bytes
-  const encryptedSeed = combined.slice(28); // Remaining bytes
-
-  const key = await deriveKey(password, salt);
-
-  // Decrypt the seed
-  const decryptedSeed = await crypto.subtle.decrypt(
-    {
-      name: "AES-GCM",
-      iv: iv,
-    },
-    key,
-    encryptedSeed
+): Promise<string> => {
+  const combined: Uint8Array = Uint8Array.from(atob(encryptedData), (c) =>
+    c.charCodeAt(0)
   );
 
-  return new Uint8Array(decryptedSeed);
+  // Extract salt, IV, and encrypted data
+  const salt: Uint8Array = combined.slice(0, 16);
+  const iv: Uint8Array = combined.slice(16, 28);
+  const encryptedSeed: Uint8Array = combined.slice(28);
+
+  const key: Uint8Array = await deriveKey(password, salt);
+
+  // Decrypt using CryptoJS
+  const decryptedData = CryptoJS.AES.decrypt(
+    Array.from(encryptedSeed)
+      .map((byte) => String.fromCharCode(byte))
+      .join(""),
+    key.toString(),
+    {
+      iv: CryptoJS.enc.Hex.parse(
+        Array.from(iv)
+          .map((byte) => byte.toString(16).padStart(2, "0"))
+          .join("")
+      ),
+    }
+  );
+
+  return decryptedData.toString(CryptoJS.enc.Utf8);
 };
 
-// const INPUT = "YEET 🙂";
-// console.log("input\t\t", INPUT);
-// const encrypted = await encrypt(new TextEncoder().encode(INPUT), "password");
-// console.log("encrypted\t", encrypted);
-// const decrypted = await decrypt(encrypted, "password");
-// console.log("decrypted\t", new TextDecoder().decode(decrypted));
-// ouputs YEET 🙂
+// // Example usage
+// (async () => {
+//   const password = "strongpassword";
+//   const data = "Secret Message";
+
+//   const encrypted = await encrypt(data, password);
+//   console.log("Encrypted:", encrypted);
+
+//   const decrypted = await decrypt(encrypted, password);
+//   console.log("Decrypted:", decrypted);
+// })();
